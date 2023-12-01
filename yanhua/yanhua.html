@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>订单表格</title>
+
+    <!-- <style src="./css/style.css"></style> -->
+    <!-- <link rel="stylesheet" href="./css/style.css"> -->
+    <style>
+        .product-image {
+    max-width: 80px;
+    max-height: 80px;
+}
+
+.videoStart {
+    width: 100%;
+    height: auto;
+    max-width: 122px;
+    max-height: 217px;
+    cursor: pointer;
+}
+
+input {
+    width: 30px;
+    text-align: center;
+}
+
+/* 新增：模态框样式 */
+#myModal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    width: 80vw;
+    height: 80vh;
+    overflow: auto;
+    box-sizing: border-box; /* 添加此样式，确保模态框的边框和内边距计算在内 */
+}
+
+#modalContent {
+    width: 100%;
+    height: 80%;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #333;
+    z-index: 2; /* 确保关闭按钮位于模态框之上 */
+}
+ /* 新增：导出按钮样式 */
+ #exportButton {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #exportButton:hover {
+            background-color: #45a049;
+        }
+
+    </style>
+</head>
+
+<body>
+    <button id="exportButton" onclick="exportData()">导出数据</button>
+    <h2 id="totalSum"></h2>
+    <h2>商品订单</h2><p>选好商品之后可以选择导出数据</p>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>商品图片</th>
+                <th>商品视频</th>
+                <th>商品名称</th>
+                <th>价格</th>
+                <th>数量</th>
+                <th>总价</th>
+            </tr>
+        </thead>
+        <tbody id="orderTableBody"></tbody>
+    </table>
+
+    <!-- 新增：模态框 -->
+    <div id="myModal">
+        <span class="close" onclick="closeModal()">关闭</span>
+        <video id="modalContent" controls></video>
+    </div>
+    <!-- 新增：添加下载按钮 -->
+    
+    <script>
+        // 商品数组
+var products = [
+    { image: './images/1.png',video: './videos/1.mp4', price: 68 ,name:'加特林'},
+    { image: './images/2.png',video: './videos/2.mp4', price: 150 ,name:'大礼包'},
+    { image: './images/3.png',video: './videos/1.mp4', price: 25 ,name:'20发礼花/0.9'},
+    { image: './images/4.png',video: './videos/1.mp4', price: 40 ,name:'36发礼花带笛音/0.9'},
+    { image: './images/5.png',video: './videos/1.mp4', price: 30 ,name:'金焰三分钟'},
+    { image: './images/5.png',video: './videos/1.mp4', price: 35 ,name:'笑笑三分钟'},
+    { image: './images/6.png',video: './videos/1.mp4', price: 30 ,name:'孔雀开屏'},
+    { image: './images/7.png',video: './videos/1.mp4', price: 30,name:'星空水母'},
+    { image: './images/8.png',video: './videos/1.mp4', price: 35 ,name:'转转乐'},
+    { image: './images/9.png',video: './videos/1.mp4', price: 10 ,name:'黑老大（10）'},
+    { image: './images/10.png',video: './videos/1.mp4', price: 20 ,name:'020火箭（10）'},
+    { image: './images/11.png',video: './videos/1.mp4', price: 20 ,name:'满地珍珠（10）'},
+    { image: './images/12.png',video: './videos/1.mp4', price: 18 ,name:'金丝雨（2）'},
+    { image: './images/13.png',video: './videos/1.mp4', price: 18 ,name:'雪花飞舞（2）'},
+    { image: './images/14.png',video: './videos/1.mp4', price:  25,name:'多彩魔鞭'},
+    { image: './images/15.png',video: './videos/1.mp4', price: 25 ,name:'金花银雨'},
+    { image: './images/16.png',video: './videos/1.mp4', price: 30 ,name:'开心转盘'},
+    { image: './images/17.png',video: './videos/1.mp4', price: 30 ,name:'雷神坦克'},
+    { image: './images/18.png',video: './videos/1.mp4', price: 25 ,name:'笑春风'},
+    { image: './images/19.png',video: './videos/1.mp4', price: 35 ,name:'年年有鱼'},
+    { image: './images/20.png',video: './videos/1.mp4', price:  35,name:'大闪亮美人（100发）'},
+    { image: './images/21.png',video: './videos/1.mp4', price: 25 ,name:'照明弹（4）'},
+    { image: './images/22.png',video: './videos/1.mp4', price: 18 ,name:'飞毛腿（4）'},
+    { image: './images/23.png',video: './videos/1.mp4', price:  15,name:'8层条鞭'},
+    { image: './images/23.png',video: './videos/1.mp4', price:  20,name:'10层条鞭'},
+    { image: './images/24.png',video: './videos/1.mp4', price: 40 ,name:'40公分红炮'},
+
+    
+];
+    </script>
+    <script>
+        var orderTableBody = document.getElementById('orderTableBody');
+        var rowTotalArray = [];
+        var currentVideo = null; // 新增：用于跟踪当前播放的视频
+
+        products.forEach(function (product) {
+            var row = document.createElement('tr');
+
+            // 商品图片
+            var imageCell = document.createElement('td');
+            var image = document.createElement('img');
+            image.src = product.image;
+            image.alt = 'Product Image';
+            image.className = 'product-image';
+            imageCell.appendChild(image);
+            row.appendChild(imageCell);
+
+            // 商品视频
+            var videoCell = document.createElement('td');
+            var video = document.createElement('video');
+            video.src = product.video;
+            video.controls = false;
+            video.className = 'videoStart';
+            video.poster = './images/MoRen.jpg';
+            video.addEventListener('click', function () {
+                openModal(product.video);
+            });
+            videoCell.appendChild(video);
+            row.appendChild(videoCell);
+
+            // 商品名称
+            var shopName = document.createElement('td');
+            shopName.textContent = product.name;
+            row.appendChild(shopName);
+
+            // 商品价格
+            var priceCell = document.createElement('td');
+            priceCell.textContent = product.price + ' 元';
+            row.appendChild(priceCell);
+
+            // 商品数量
+            var quantityCell = document.createElement('td');
+            var quantityInput = document.createElement('input');
+            quantityInput.type = 'text';
+            quantityInput.value = 0;
+            quantityInput.readOnly = true;
+
+            // 减少数量按钮
+            var decreaseButton = document.createElement('button');
+            decreaseButton.textContent = '-';
+            decreaseButton.addEventListener('click', function () {
+                var currentValue = parseInt(quantityInput.value);
+                if (currentValue > 0) {
+                    quantityInput.value = currentValue - 1;
+                    updateTotal();
+                }
+            });
+            quantityCell.appendChild(decreaseButton);
+
+            // 在两个按钮之间插入原始商品数量
+            quantityCell.appendChild(quantityInput);
+
+            // 增加数量按钮
+            var increaseButton = document.createElement('button');
+            increaseButton.textContent = '+';
+            increaseButton.addEventListener('click', function () {
+                var currentValue = parseInt(quantityInput.value);
+                quantityInput.value = currentValue + 1;
+                updateTotal();
+            });
+            quantityCell.appendChild(increaseButton);
+
+            row.appendChild(quantityCell);
+
+            // 商品总价
+            var totalCell = document.createElement('td');
+            totalCell.textContent = 0 + ' 元';
+            row.appendChild(totalCell);
+            rowTotalArray.push(totalCell);
+
+            // 将行添加到表格体
+            orderTableBody.appendChild(row);
+
+            // 更新总价
+            function updateTotal() {
+                var quantity = parseInt(quantityInput.value);
+                var total = product.price * quantity;
+                totalCell.textContent = total + ' 元';
+
+                // 计算总和
+                var totalSum = rowTotalArray.reduce(function (acc, cell) {
+                    return acc + parseFloat(cell.textContent);
+                }, 0);
+
+                // 显示总和在页面上
+                document.getElementById('totalSum').textContent = "总计：" + totalSum + ' 元';
+            }
+
+            // 打开模态框
+            function openModal(videoSrc) {
+                var modal = document.getElementById('myModal');
+                var modalContent = document.getElementById('modalContent');
+                modalContent.src = videoSrc;
+                modal.style.display = 'block';
+
+                // 暂停之前的视频播放
+                pauseCurrentVideo();
+
+                // 设置当前播放的视频
+                currentVideo = modalContent;
+            }
+
+            // 暂停当前视频播放
+            function pauseCurrentVideo() {
+                if (currentVideo) {
+                    currentVideo.pause();
+                }
+            }
+        });
+
+        // 关闭模态框
+        
+    function closeModal() {
+    var modal = document.getElementById('myModal');
+    var modalContent = document.getElementById('modalContent');
+    modalContent.pause(); // 暂停视频
+    modal.style.display = 'none';
+    }
+
+    </script>
+    <script>
+        
+        //没事干 加个时间戳
+        function getID(){
+            var date = new Date();
+
+            // 获取年月日
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1; // 月份从0开始，需要加1
+            var day = date.getDate();
+
+            // 格式化为 yyyy-mm-dd
+            var formattedDate = `${year}${month.toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`;
+            var rund = Math.ceil(Math.random()*1000);
+            var Sjc = formattedDate+'|'+rund;
+            console.log(Sjc);
+            return Sjc;
+
+
+        }
+        function exportData() {
+            var data = "商品名称,商品数量\n";
+
+            products.forEach(function (product, index) {
+                var quantity = parseInt(document.querySelectorAll('#orderTableBody tr input')[index].value);
+                if (quantity > 0) {
+                    data += `${product.name},${quantity}\n`;
+                }
+            });
+
+            // 商品总计
+            var totalSum = document.getElementById('totalSum').textContent.replace("总计：", "");
+            data += `商品总计,${totalSum}\n`;
+            data += '购买请认准唯一VX：123456\n'
+
+            // 创建Blob对象
+            var blob = new Blob([data], { type: 'text/csv' });
+
+            // 创建下载链接
+            var link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = getID();
+            
+            
+            // 模拟点击下载链接
+            link.click();
+        }
+        
+    </script>
+    <!-- <script src="./js/sp.js"></script>
+    <script src="./js/gn.js"></script> -->
+</body>
+
+</html>

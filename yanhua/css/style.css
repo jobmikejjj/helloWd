@@ -1,0 +1,64 @@
+.product-image {
+    max-width: 80px;
+    max-height: 80px;
+}
+
+.videoStart {
+    width: 100%;
+    height: auto;
+    max-width: 122px;
+    max-height: 217px;
+    cursor: pointer;
+}
+
+input {
+    width: 30px;
+    text-align: center;
+}
+
+/* 新增：模态框样式 */
+#myModal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    width: 80vw;
+    height: 80vh;
+    overflow: auto;
+    box-sizing: border-box; /* 添加此样式，确保模态框的边框和内边距计算在内 */
+}
+
+#modalContent {
+    width: 100%;
+    height: 80%;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #333;
+    z-index: 2; /* 确保关闭按钮位于模态框之上 */
+}
+ /* 新增：导出按钮样式 */
+ #exportButton {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #exportButton:hover {
+            background-color: #45a049;
+        }
