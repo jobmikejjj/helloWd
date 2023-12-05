@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>订单表格</title>
+
+    <!-- <style src="./css/style.css"></style> -->
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <button id="exportButton" onclick="exportData()">导出数据</button>
+    <h2 id="totalSum"></h2>
+    <h2>此页为批发价商品订单</h2><p>选好商品之后可以选择导出数据</p>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>商品图片</th>
+                <th>商品视频</th>
+                <th>商品名称</th>
+                <th>价格</th>
+                <th>数量</th>
+                <th>总价</th>
+            </tr>
+        </thead>
+        <tbody id="orderTableBody"></tbody>
+    </table>
+
+    <!-- 新增：模态框 -->
+    <div id="myModal">
+        <span class="close" onclick="closeModal()">关闭</span>
+        <video id="modalContent" controls></video>
+    </div>
+
+    <script src="./js/pfsp.js"></script>
+    <script src="./js/gn.js"></script>
+    <script src="./js/xz.js"></script>
+</body>
+
+</html>
