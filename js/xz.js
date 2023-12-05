@@ -32,7 +32,7 @@ function exportData() {
     data += '购买请认准唯一VX：123456\n'
 
     // 创建Blob对象
-    var blob = new Blob([data], { type: 'application/vnd.ms-excel' });
+    var blob = new Blob([data], { type: 'text/csv' });
 
     // 创建下载链接
     var link = document.createElement('a');
