@@ -17,12 +17,13 @@ function getID(){
 
 }
 function exportData() {
-    var data = "商品名称,商品数量\n";
+    var data = "商品名称,商品箱数,商品个数\n";
 
     products.forEach(function (product, index) {
         var quantity = parseInt(document.querySelectorAll('#orderTableBody tr input')[index].value);
         if (quantity > 0) {
-            data += `${product.name},${quantity}箱\n`;
+            var SPnumber = product.HanLiang * quantity;
+            data += `${product.name},${quantity}箱,${SPnumber}\n`;
         }
     });
 
