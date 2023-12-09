@@ -12,7 +12,7 @@ var products = [
     { image: './images/9.png',video: './videos/1.mp4',HanLiang :48, price: 5 ,name:'黑老大（10）'},
     { image: './images/10.png',video: './videos/1.mp4',HanLiang :40, price: 12 ,name:'020火箭（10）'},
     { image: './images/11.png',video: './videos/1.mp4',HanLiang :60, price: 12 ,name:'满地珍珠（10）'},
-    { image: './images/12.png',video: './videos/1.mp4',HanLiang :60, price: 10 ,name:'金丝雨（2）'},
+    { image: './images/12.png',video: './videos/1.mp4',HanLiang :60, price: 10 ,name:'金丝雨（4）'},
     { image: './images/13.png',video: './videos/1.mp4',HanLiang :60, price: 10 ,name:'雪花飞舞（2）'},
     { image: './images/14.png',video: './videos/1.mp4',HanLiang :30, price: 15,name:'多彩魔鞭'},
     { image: './images/15.png',video: './videos/1.mp4',HanLiang :36, price: 15 ,name:'金花银雨'},
