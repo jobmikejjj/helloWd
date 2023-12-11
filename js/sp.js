@@ -1,6 +1,6 @@
 // 商品数组
 var products = [
-    { image: './images/1.png',video: './videos/jtl.mp4', price: 68 ,name:'加特林'},
+    { image: './images/1.png',video: './videos/jtl.mp4', price: 50 ,name:'加特林'},
     { image: './images/2.png',video: './videos/2.mp4', price: 150 ,name:'大礼包'},
     { image: './images/3.png',video: './videos/20fa.mp4', price: 25 ,name:'20发礼花/0.9'},
     { image: './images/4.png',video: './videos/36fa.mp4', price: 40 ,name:'36发礼花带笛音/0.9'},
