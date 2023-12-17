@@ -21,7 +21,7 @@ var products = [
     { image: './images/18.png',video: './videos/1.mp4',HanLiang :36, price: 15 ,name:'笑春风'},
     { image: './images/19.png',video: './videos/1.mp4',HanLiang :16, price: 25 ,name:'年年有鱼'},
     { image: './images/20.png',video: './videos/1.mp4',HanLiang :24, price:  20,name:'大闪亮美人（100发）'},
-    { image: './images/21.png',video: './videos/1.mp4',HanLiang :33, price: 15 ,name:'照明弹（4）'},
+    { image: './images/21.png',video: './videos/1.mp4',HanLiang :33, price: 12 ,name:'照明弹（4）'},
     { image: './images/22.png',video: './videos/1.mp4',HanLiang :42, price: 10 ,name:'飞毛腿（4）'},
     { image: './images/23.png',video: './videos/1.mp4',HanLiang :30, price:  8,name:'8层条鞭'},
     { image: './images/23.png',video: './videos/1.mp4',HanLiang :24, price:  10,name:'10层条鞭'},
